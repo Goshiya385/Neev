@@ -1,0 +1,55 @@
+# =========================
+# ENV FILES
+# =========================
+.env
+.env.local
+.env.production
+.env.development
+
+# =========================
+# NODE MODULES
+# =========================
+node_modules/
+backend/node_modules/
+frontend/node_modules/
+
+# =========================
+# NEXTJS
+# =========================
+.next/
+frontend/.next/
+
+# =========================
+# PYTHON
+# =========================
+venv/
+__pycache__/
+*.pyc
+ml-service/__pycache__/
+
+# =========================
+# VECTOR DB / ML FILES
+# =========================
+ml-service/chroma_data/
+ml-service/vectorstore/
+
+# =========================
+# BUILD FILES
+# =========================
+dist/
+build/
+
+# =========================
+# LOGS
+# =========================
+*.log
+
+# =========================
+# MAC
+# =========================
+.DS_Store
+
+# =========================
+# VSCODE
+# =========================
+.vscode/

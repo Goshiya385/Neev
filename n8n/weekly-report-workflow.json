@@ -1,0 +1,61 @@
+{
+  "name": "NEEV Weekly Student Reports",
+  "nodes": [
+    {
+      "id": "cron-trigger",
+      "name": "Every Monday 8AM",
+      "type": "n8n-nodes-base.cron",
+      "parameters": {
+        "triggerTimes": {
+          "item": [{"mode": "everyWeek", "hour": 8, "minute": 0, "weekday": 1}]
+        }
+      },
+      "position": [240, 300]
+    },
+    {
+      "id": "http-request",
+      "name": "Trigger NEEV Backend",
+      "type": "n8n-nodes-base.httpRequest",
+      "parameters": {
+        "method": "POST",
+        "url": "={{$env.NEEV_BACKEND_URL}}/api/reports/weekly-trigger",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [{"name": "x-n8n-secret", "value": "={{$env.N8N_WEBHOOK_SECRET}}"}]
+        },
+        "options": {"timeout": 120000}
+      },
+      "position": [460, 300]
+    },
+    {
+      "id": "if-errors",
+      "name": "Check for failures",
+      "type": "n8n-nodes-base.if",
+      "parameters": {
+        "conditions": {
+          "number": [{"value1": "={{$json.failed.length}}", "operation": "larger", "value2": 0}]
+        }
+      },
+      "position": [680, 300]
+    },
+    {
+      "id": "slack-alert",
+      "name": "Alert on failures",
+      "type": "n8n-nodes-base.httpRequest",
+      "parameters": {
+        "method": "POST",
+        "url": "={{$env.SLACK_WEBHOOK_URL}}",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [{"name": "text", "value": "⚠️ NEEV Weekly Reports: Some emails failed. Check backend logs."}]
+        }
+      },
+      "position": [900, 200]
+    }
+  ],
+  "connections": {
+    "Every Monday 8AM": {"main": [[{"node": "Trigger NEEV Backend", "type": "main", "index": 0}]]},
+    "Trigger NEEV Backend": {"main": [[{"node": "Check for failures", "type": "main", "index": 0}]]},
+    "Check for failures": {"main": [[{"node": "Alert on failures", "type": "main", "index": 0}], []]}
+  }
+}

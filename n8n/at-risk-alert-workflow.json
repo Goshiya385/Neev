@@ -1,0 +1,46 @@
+{
+  "name": "NEEV At-Risk Student Alerts",
+  "nodes": [
+    {
+      "id": "daily-cron",
+      "name": "Daily 9AM Check",
+      "type": "n8n-nodes-base.cron",
+      "parameters": {"triggerTimes": {"item": [{"mode": "everyDay", "hour": 9, "minute": 0}]}}
+    },
+    {
+      "id": "fetch-risks",
+      "name": "Fetch At-Risk Students",
+      "type": "n8n-nodes-base.httpRequest",
+      "parameters": {
+        "method": "GET",
+        "url": "={{$env.NEEV_BACKEND_URL}}/api/teacher/risk-alerts",
+        "sendHeaders": true,
+        "headerParameters": {"parameters": [{"name": "Authorization", "value": "Bearer ={{$env.NEEV_TEACHER_TOKEN}}"}]}
+      }
+    },
+    {
+      "id": "send-email-alert",
+      "name": "Email Teacher if High Risk",
+      "type": "n8n-nodes-base.httpRequest",
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.resend.com/emails",
+        "sendHeaders": true,
+        "headerParameters": {"parameters": [{"name": "Authorization", "value": "Bearer ={{$env.RESEND_API_KEY}}"}]},
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {"name": "from", "value": "NEEV Alerts <alerts@neev.app>"},
+            {"name": "to", "value": "={{$env.TEACHER_EMAIL}}"},
+            {"name": "subject", "value": "⚠️ NEEV: Students need attention"},
+            {"name": "html", "value": "<p>Daily risk check found high-risk students. Login to NEEV to review.</p>"}
+          ]
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Daily 9AM Check": {"main": [[{"node": "Fetch At-Risk Students", "type": "main", "index": 0}]]},
+    "Fetch At-Risk Students": {"main": [[{"node": "Email Teacher if High Risk", "type": "main", "index": 0}]]}
+  }
+}

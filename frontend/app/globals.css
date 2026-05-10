@@ -1,0 +1,133 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #0A0F0D;
+  --bg-alt: #0E1612;
+  --surface: #141F1A;
+  --border: #1C2E25;
+  --text: #FFFFFF;
+  --muted: #7A9A88;
+  --accent: #F5A623;
+  --accent2: #4ADE80;
+  --danger: #F87171;
+  --info: #60A5FA;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+/* Shimmer loader */
+.shimmer {
+  background: linear-gradient(90deg, transparent 0%, rgba(245,166,35,0.08) 50%, transparent 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* Input styling */
+.neev-input {
+  background: transparent;
+  border: none;
+  border-bottom: 1.5px solid var(--border);
+  padding: 12px 0;
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  width: 100%;
+  transition: border-color 0.3s ease;
+  outline: none;
+}
+.neev-input:focus {
+  border-bottom-color: var(--accent);
+}
+.neev-input::placeholder {
+  color: var(--muted);
+  opacity: 0.6;
+}
+
+/* Button */
+.neev-btn {
+  background: var(--accent);
+  color: #000;
+  font-family: 'Syne', sans-serif;
+  font-weight: 600;
+  padding: 12px 32px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  letter-spacing: 0.3px;
+  transition: all 0.2s ease;
+}
+.neev-btn:hover {
+  background: #e6951a;
+  transform: translateY(-1px);
+}
+.neev-btn:active {
+  transform: translateY(0);
+}
+.neev-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Glass card */
+.glass-card {
+  background: rgba(20, 31, 26, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(28, 46, 37, 0.5);
+  border-radius: 12px;
+}
+
+/* Stat number */
+.stat-number {
+  font-family: 'Syne', sans-serif;
+  font-size: 56px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+/* Selection */
+::selection {
+  background: rgba(245, 166, 35, 0.3);
+  color: var(--text);
+}
+
+@layer utilities {
+  .text-gradient {
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
