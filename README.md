@@ -1,3 +1,18 @@
+## Docker Setup (Local Development)
+
+This project is fully containerized using Docker and Docker Compose, running three services:
+- Frontend (Next.js) - port 3000
+- Backend (Node.js/Express) - port 5000
+- ML Service (FastAPI/Python) - port 8000
+
+### Run locally
+docker-compose up --build
+
+Then visit:
+- Frontend: http://localhost:3000
+- Backend health check: http://localhost:5000/api/health
+- ML service docs: http://localhost:8000/docs
+
 # 🌱 NEEV — AI-Powered Engineering Student Growth Ecosystem
 
 > **"Academic comeback starts here 💀"**
