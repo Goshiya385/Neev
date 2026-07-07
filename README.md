@@ -1,3 +1,9 @@
+## CI/CD Pipeline
+
+This project uses GitHub Actions to automatically build and push Docker images to Docker Hub on every push to main.
+
+Workflow file: .github/workflows/ci-cd.yml
+
 ## Docker Setup (Local Development)
 
 This project is fully containerized using Docker and Docker Compose, running three services:
